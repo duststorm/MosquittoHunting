@@ -191,7 +191,7 @@ while True:
   
   if event == ord("q"): break
   elif event == ord("c"): 
-    mqttc.connect("127.0.0.1")
+    mqttc.connect(args.host)
   elif event == ord("d"):
     mqttc.disconnect()
   
