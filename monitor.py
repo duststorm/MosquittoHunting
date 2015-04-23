@@ -5,7 +5,12 @@ import signal
 import sys
 import argparse
 import curses
-import mosquitto
+try:
+    import mosquitto as mqtt
+    PAHO_MQTT = False
+except ImportError:
+    import paho.mqtt.client as mqtt
+    PAHO_MQTT = True
 
 OLD_MOSQUITTO = True
 
@@ -170,7 +175,10 @@ def on_message(mosq, obj, msg):
 def on_log(mosq, obj, level, string):
   print(string)
 
-mqttc = mosquitto.Mosquitto()
+if PAHO_MQTT:
+    mqttc = mqtt.Client()
+else:
+    mqttc = mqtt.Mosquitto()
 
 # Register callbacks
 mqttc.on_message = on_message
